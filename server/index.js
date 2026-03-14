@@ -3,6 +3,7 @@ const express = require('express');
 const NodeMediaServer = require('node-media-server');
 
 // RTMP ingest. Publishers connect to rtmp://localhost:1935/live/<stream-key>
+// HTTP-FLV playback for the browser at http://localhost:8000/live/<stream-key>.flv
 const nms = new NodeMediaServer({
   rtmp: {
     port: 1935,
@@ -10,6 +11,11 @@ const nms = new NodeMediaServer({
     gop_cache: true,
     ping: 30,
     ping_timeout: 60,
+  },
+  http: {
+    port: 8000,
+    mediaroot: './media',
+    allow_origin: '*',
   },
 });
 
