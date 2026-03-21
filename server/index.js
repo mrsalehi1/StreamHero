@@ -1,6 +1,9 @@
 const path = require('path');
 const express = require('express');
 const NodeMediaServer = require('node-media-server');
+const StreamRegistry = require('./registry');
+
+const registry = new StreamRegistry();
 
 // RTMP ingest. Publishers connect to rtmp://localhost:1935/live/<stream-key>
 // HTTP-FLV playback for the browser at http://localhost:8000/live/<stream-key>.flv
@@ -21,9 +24,11 @@ const nms = new NodeMediaServer({
 
 nms.on('postPublish', (id, streamPath) => {
   console.log(`[rtmp] publish started: ${streamPath}`);
+  registry.add(streamPath, id);
 });
 nms.on('donePublish', (id, streamPath) => {
   console.log(`[rtmp] publish ended: ${streamPath}`);
+  registry.remove(streamPath, id);
 });
 
 nms.run();
