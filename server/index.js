@@ -36,6 +36,12 @@ nms.run();
 const app = express();
 const PORT = 3000;
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Currently-live publishers, consumed by the dashboard.
+app.get('/api/streams', (req, res) => {
+  res.json({ streams: registry.list() });
+});
+
 app.listen(PORT, () => {
   console.log(`StreamHero dashboard on http://localhost:${PORT}`);
   console.log(`RTMP ingest on rtmp://localhost:1935/live/<stream-key>`);
