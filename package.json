@@ -11,5 +11,9 @@
     "streaming",
     "live"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-media-server": "^2.6.2"
+  }
 }
