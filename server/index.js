@@ -42,6 +42,11 @@ app.get('/api/streams', (req, res) => {
   res.json({ streams: registry.list() });
 });
 
+// Ports/app info so the UI can build ingest + playback URLs.
+app.get('/api/config', (req, res) => {
+  res.json({ rtmpPort: 1935, flvPort: 8000, app: 'live' });
+});
+
 app.listen(PORT, () => {
   console.log(`StreamHero dashboard on http://localhost:${PORT}`);
   console.log(`RTMP ingest on rtmp://localhost:1935/live/<stream-key>`);
