@@ -2,10 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>StreamHero</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StreamHero — Live Ingest Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>StreamHero</h1>
-  <p>Ingest server coming soon. Streams will show up here.</p>
+  <header>
+    <h1>Stream<span class="accent">Hero</span></h1>
+    <p class="tagline">RTMP ingest hub — publish a stream, watch it here live.</p>
+  </header>
+
+  <main>
+    <div class="grid-header">
+      <h2>Live inputs</h2>
+      <span id="stream-count" class="count">0 streams</span>
+    </div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty">
+      <p>No streams yet.</p>
+      <p class="hint">Point your encoder at the RTMP endpoint and it will appear here.</p>
+    </div>
+  </main>
 </body>
 </html>
