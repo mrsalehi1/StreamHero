@@ -26,16 +26,35 @@ function addStream(stream) {
   players.set(stream.path, { card, player });
 }
 
+function removeStream(path) {
+  const entry = players.get(path);
+  if (!entry) return;
+  entry.player.pause();
+  entry.player.unload();
+  entry.player.detachMediaElement();
+  entry.player.destroy();
+  entry.card.remove();
+  players.delete(path);
+}
+
 async function refresh() {
-  const res = await fetch('/api/streams');
-  const { streams } = await res.json();
+  try {
+    const res = await fetch('/api/streams');
+    const { streams } = await res.json();
+    const active = new Set(streams.map((s) => s.path));
 
-  for (const stream of streams) {
-    if (!players.has(stream.path)) addStream(stream);
+    for (const stream of streams) {
+      if (!players.has(stream.path)) addStream(stream);
+    }
+    for (const path of [...players.keys()]) {
+      if (!active.has(path)) removeStream(path);
+    }
+
+    countEl.textContent = `${streams.length} stream${streams.length === 1 ? '' : 's'}`;
+    emptyState.style.display = streams.length ? 'none' : 'block';
+  } catch (err) {
+    console.error('Failed to refresh streams', err);
   }
-
-  countEl.textContent = `${streams.length} stream${streams.length === 1 ? '' : 's'}`;
-  emptyState.style.display = streams.length ? 'none' : 'block';
 }
 
 refresh();
