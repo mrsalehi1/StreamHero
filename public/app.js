@@ -11,7 +11,13 @@ function flvUrlFor(streamPath) {
 function addStream(stream) {
   const card = document.createElement('div');
   card.className = 'card';
-  card.innerHTML = `<video muted autoplay></video>`;
+  card.innerHTML = `
+    <video muted autoplay></video>
+    <div class="card-meta">
+      <span class="live-badge">LIVE</span>
+      <span class="stream-key">${stream.name}</span>
+      <span class="uptime" data-started="${stream.startedAt}"></span>
+    </div>`;
   grid.appendChild(card);
 
   const video = card.querySelector('video');
@@ -57,5 +63,17 @@ async function refresh() {
   }
 }
 
+function tickUptimes() {
+  document.querySelectorAll('.uptime').forEach((el) => {
+    const started = Number(el.dataset.started);
+    const secs = Math.max(0, Math.floor((Date.now() - started) / 1000));
+    const h = String(Math.floor(secs / 3600)).padStart(2, '0');
+    const m = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+    const s = String(secs % 60).padStart(2, '0');
+    el.textContent = `${h}:${m}:${s}`;
+  });
+}
+
 refresh();
 setInterval(refresh, 3000);
+setInterval(tickUptimes, 1000);

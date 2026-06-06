@@ -64,6 +64,43 @@ main { padding: 16px 32px 40px; }
   display: block;
 }
 
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.live-badge {
+  background: #d32f2f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.stream-key {
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uptime {
+  margin-left: auto;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .empty {
   border: 1px dashed var(--border);
   border-radius: 10px;
