@@ -13,6 +13,14 @@
     <p class="tagline">RTMP ingest hub — publish a stream, watch it here live.</p>
   </header>
 
+  <section class="endpoint-banner">
+    <div>
+      <span class="label">Your ingest endpoint</span>
+      <code id="ingest-url">rtmp://localhost:1935/live/&lt;stream-key&gt;</code>
+    </div>
+    <button id="copy-btn" title="Copy ingest URL">Copy</button>
+  </section>
+
   <main>
     <div class="grid-header">
       <h2>Live inputs</h2>

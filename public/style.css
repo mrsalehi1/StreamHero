@@ -34,6 +34,45 @@ header h1 {
 
 main { padding: 16px 32px 40px; }
 
+.endpoint-banner {
+  margin: 8px 32px 0;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.endpoint-banner .label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.endpoint-banner code {
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+  font-size: 15px;
+  color: var(--accent);
+}
+
+#copy-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#copy-btn:hover { filter: brightness(1.1); }
+
 .grid-header {
   display: flex;
   align-items: baseline;

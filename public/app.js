@@ -1,11 +1,27 @@
 const grid = document.getElementById('grid');
 const emptyState = document.getElementById('empty');
 const countEl = document.getElementById('stream-count');
+const ingestEl = document.getElementById('ingest-url');
+const copyBtn = document.getElementById('copy-btn');
 
+let flvPort = 8000;
 const players = new Map(); // streamPath -> { card, player }
 
+async function loadConfig() {
+  const res = await fetch('/api/config');
+  const cfg = await res.json();
+  flvPort = cfg.flvPort;
+  ingestEl.textContent = `rtmp://${location.hostname}:${cfg.rtmpPort}/${cfg.app}/<stream-key>`;
+}
+
+copyBtn.addEventListener('click', async () => {
+  await navigator.clipboard.writeText(ingestEl.textContent);
+  copyBtn.textContent = 'Copied!';
+  setTimeout(() => (copyBtn.textContent = 'Copy'), 1500);
+});
+
 function flvUrlFor(streamPath) {
-  return `http://${location.hostname}:8000${streamPath}.flv`;
+  return `http://${location.hostname}:${flvPort}${streamPath}.flv`;
 }
 
 function addStream(stream) {
@@ -74,6 +90,6 @@ function tickUptimes() {
   });
 }
 
-refresh();
+loadConfig().then(refresh);
 setInterval(refresh, 3000);
 setInterval(tickUptimes, 1000);
