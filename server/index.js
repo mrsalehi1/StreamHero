@@ -51,7 +51,16 @@ app.get('/api/config', (req, res) => {
   });
 });
 
-app.listen(config.httpPort, () => {
+const server = app.listen(config.httpPort, () => {
   console.log(`StreamHero dashboard: http://localhost:${config.httpPort}`);
   console.log(`RTMP ingest:          rtmp://localhost:${config.rtmpPort}/${config.app}/<stream-key>`);
 });
+
+function shutdown() {
+  console.log('\nShutting down...');
+  server.close();
+  nms.stop();
+  process.exit(0);
+}
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
