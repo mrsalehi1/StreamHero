@@ -1,11 +1,28 @@
 # StreamHero
 
-Self-hosted RTMP ingest hub with a live monitoring dashboard.
+Self-hosted live production hub. You publish one or more cameras over RTMP,
+watch every input live in the browser, and (on the roadmap) direct a single
+program out to YouTube, Instagram, and other platforms.
 
-Run it, point OBS or ffmpeg at your personal RTMP endpoint, and watch every
-input show up in the web dashboard in real time.
+It is for solo streamers and small crews who want their own ingest and
+switcher instead of renting a cloud studio. One person can run it on a
+machine they control.
+
+Built with Node.js, Express, and
+[node-media-server](https://github.com/illuspas/Node-Media-Server) for RTMP
+ingest and HTTP-FLV playback. The dashboard is plain HTML, CSS, and JavaScript
+and plays each input with [flv.js](https://github.com/bilibili/flv.js).
+Publishers use OBS or ffmpeg.
+
+What works today is ingest and monitoring. Switching, transitions, graphics,
+recording, restream, director roles, and multi-tenant admin are planned in
+[ROADMAP.md](ROADMAP.md).
+
+Licensed under the [MIT License](LICENSE).
 
 ## Quickstart
+
+Requires Node.js 18 or newer.
 
 ```bash
 npm install
@@ -37,11 +54,10 @@ seconds. Multiple publishers can share the server by using different stream keys
 ## API
 
 - `GET /api/streams` — currently live publishers (name, path, startedAt)
-- `GET /api/config` — ports/app info used by the dashboard to build URLs
+- `GET /api/config` — ports and app name the dashboard uses to build URLs
 
 ## How it works
 
-- [node-media-server](https://github.com/illuspas/Node-Media-Server) accepts RTMP
-  on `:1935` and remuxes each stream to HTTP-FLV on `:8000`.
-- An express server serves the dashboard on `:3000` and exposes a small JSON API.
+- node-media-server accepts RTMP on `:1935` and remuxes each stream to HTTP-FLV on `:8000`.
+- Express serves the dashboard on `:3000` and a small JSON API.
 - The dashboard polls `/api/streams` and plays each live input with flv.js.
