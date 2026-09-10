@@ -25,6 +25,9 @@ function flvUrlFor(streamPath) {
 }
 
 function addStream(stream) {
+  // If a publisher restarts with the same key, drop the old player first.
+  if (players.has(stream.path)) removeStream(stream.path);
+
   const card = document.createElement('div');
   card.className = 'card';
   card.innerHTML = `
@@ -37,6 +40,12 @@ function addStream(stream) {
   grid.appendChild(card);
 
   const video = card.querySelector('video');
+  if (!flvjs.isSupported()) {
+    card.querySelector('.stream-key').textContent = `${stream.name} (flv.js unsupported)`;
+    players.set(stream.path, { card, player: null });
+    return;
+  }
+
   const player = flvjs.createPlayer(
     { type: 'flv', url: flvUrlFor(stream.path), isLive: true },
     { enableStashBuffer: false }
@@ -51,10 +60,12 @@ function addStream(stream) {
 function removeStream(path) {
   const entry = players.get(path);
   if (!entry) return;
-  entry.player.pause();
-  entry.player.unload();
-  entry.player.detachMediaElement();
-  entry.player.destroy();
+  if (entry.player) {
+    entry.player.pause();
+    entry.player.unload();
+    entry.player.detachMediaElement();
+    entry.player.destroy();
+  }
   entry.card.remove();
   players.delete(path);
 }
