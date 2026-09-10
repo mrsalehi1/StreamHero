@@ -1,10 +1,11 @@
 {
   "name": "streamhero",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "Self-hosted RTMP ingest hub with a live monitoring dashboard.",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "dev": "node server/index.js"
   },
   "keywords": [
     "rtmp",
